@@ -3,170 +3,142 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sounania <sounania@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergei <sergei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:15:00 by sounania          #+#    #+#             */
-/*   Updated: 2025/08/11 17:13:01 by sounania         ###   ########.fr       */
+/*   Updated: 2025/08/27 20:41:50 by sergei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "push_swap.h"
 
-void sa(char *a, int topa)
+static void	index_stack(int *a, int size)
 {
-    int temp;
+	int *sorted;
+	int i;
+	int j;
 
-    temp = 0;
-    if (topa >= 1)
-    {
-       temp = a[topa];
-       a[topa] = a[topa - 1];
-       a[topa - 1] = temp; 
-    }
-    write (1, "sa\n", 3);
-}
-void sb(char *b, int topb)
-{
-    int temp;
-
-    temp = 0;
-    if (topb >= 1)
-    {
-       temp = b[topb];
-       b[topb] = b[topb - 1];
-       b[topb - 1] = temp; 
-    }
-    write (1, "sb\n", 3);
-}
-
-void ss(char *a, int topa, char *b, int topb)
-{
-    sa(a,topa);
-    sb(b,topb);
-}
-
-void pa(char *a, int *topa, char *b, int *topb)
-{
-    if (*topb != -1)
-    {
-        a[++(*topa)] = b[*topb];
-        (*topb)--;
-    }
-    write (1, "pa\n", 3);
-}
-
-void pb(char *a, int *topa, char *b, int *topb)
-{
-    if (*topa != -1)
-    {
-        b[++(*topb)] = a[*topa];
-        (*topa)--;
-    }
-    write (1, "pb\n", 3);
+	sorted = malloc(size * sizeof(int));
+	if (!sorted)
+		error_exit();
+	i = 0;
+	while (i < size)
+	{
+		sorted[i] = a[i];
+		i++;
+	}
+	i = 0;
+	while (i < size - 1)
+	{
+		j = i + 1;
+		while (j < size)
+		{
+			if (sorted[i] > sorted[j])
+			{
+				int tmp = sorted[i];
+				sorted[i] = sorted[j];
+				sorted[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			if (a[i] == sorted[j])
+			{
+				a[i] = j;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	free(sorted);
 }
 
-void ra(char *a, int topa)
+void	radix_sort(int *a, int *b, int *topa, int *topb, int size)
 {
-    int     i;
-    char    temp;
+	int	max_num;
+	int	max_bits;
+	int	i;
+	int	j;
+	int	count;
 
-    i = 0;
-    temp = a[0];
-    if (topa < 1)
-        return;
-    while(i < topa)
-    {
-        a[i] = a[i + 1];
-        i++;
-    }
-    a[topa] = temp;
+	max_num = size - 1;
+	max_bits = 0;
+	while ((max_num >> max_bits) != 0)
+		max_bits++;
+	i = 0;
+	while (i < max_bits)
+	{
+		count = size; // always full size at start of bit
+		j = 0;
+		while (j < count)
+		{
+			if (((a[0] >> i) & 1) == 1)
+				ra(a, *topa);
+			else
+				pb(a, topa, b, topb);
+			j++;
+		}
+		while (*topb >= 0)
+			pa(a, topa, b, topb);
+		i++;
+	}
 }
 
-void rb(char *b, int topb)
+int	main(int argc, char **argv)
 {
-    int     i;
-    char    temp;
+	int *a;
+	int *b;
+	int topa;
+	int topb;
+	int size;
+	int i;
+	int error;
 
-    i = 0;
-    temp = b[0];
-    if (topb < 1)
-        return;
-    while(i < topb)
-    {
-        b[i] = b[i + 1];
-        i++;
-    }
-    b[topb] = temp;
+	if (argc < 2)
+		return (0);
+	size = argc - 1;
+	a = malloc(size * sizeof(int));
+	b = malloc(size * sizeof(int));
+	if (!a || !b)
+		error_exit();
+	topa = size - 1;
+	topb = -1;
+	error = 0;
+	i = 1;
+	while (i < argc)
+	{
+		a[i - 1] = ft_atoi(argv[i], &error);
+		if (error)
+			error_exit();
+		i++;
+	}
+	if (check_duplicate(a, size))
+		error_exit();
+
+	index_stack(a, size);
+
+	// Reverse array so top = index 0
+	i = 0;
+	while (i < size / 2)
+	{
+		int tmp = a[i];
+		a[i] = a[size - 1 - i];
+		a[size - 1 - i] = tmp;
+		i++;
+	}
+
+	if (!is_sorted(a, topa))
+		radix_sort(a, b, &topa, &topb, size);
+
+	free(a);
+	free(b);
+	return (0);
 }
-
-void rr(char *a, int topa, char *b, int topb)
-{
-    ra(a, topa);
-    rb(b, topb);
-}
-
-void rra(char *a, int topa)
-{
-    int     i;
-    char    temp;
-
-    i = topa;
-    temp = a[topa];
-    if (topa < 1)
-        return;
-    while(i > 0)
-    {
-        a[i] = a[i - 1];
-        i--;
-    }
-    a[0] = temp;
-}
-
-void rrb(char *b, int topb)
-{
-    int     i;
-    char    temp;
-
-    i = topb;
-    temp = b[topb];
-    if (topb < 1)
-        return;
-    while(i > 0)
-    {
-        b[i] = b[i - 1];
-        i--;
-    }
-    b[0] = temp;
-}
-
-void rrr(char *a, int topa, char *b, int topb)
-{
-    rra(a, topa);
-    rrb(b, topb);
-}
-// #include <stdio.h>
-
-// int main(void)
-// {
-//     char a[10] = {'0', '1', '2', '3', '4', '5'};
-//     char b[10] = {'0', '1', '2', '3', '4', '5'};
-//     int topa = 5;
-//     int topb = 5;
-//     int i = 0;
-//     int j = 0;
-    
-//     ss(a, topa, b, topb);
-//     // sa(a, topa);
-//     while (i <= topa)
-//     {
-//         printf("%c", a[i]);
-//         i++;
-//     }
-//     // sb(b, topb);
-//     while (j <= topb)
-//     {
-//         printf("%c", b[j]);
-//         j++;
-//     }
-//     return (0);
-// }
