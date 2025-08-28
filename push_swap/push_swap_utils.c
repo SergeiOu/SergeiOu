@@ -3,48 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergei <sergei@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sounania <sounania@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 10:17:36 by sergei            #+#    #+#             */
-/*   Updated: 2025/08/27 20:34:27 by sergei           ###   ########.fr       */
+/*   Updated: 2025/08/28 09:26:39 by sounania         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void sa(int *a, int topa)
+void	sa(int *a, int topa)
 {
-	int temp;
-
 	if (topa < 1)
 		return ;
-	temp = a[0];
-	a[0] = a[1];
-	a[1] = temp;
+	swap(&a[0], &a[1]);
 	write(1, "sa\n", 3);
 }
 
-void sb(int *b, int topb)
+void	sb(int *b, int topb)
 {
-	int temp;
-
 	if (topb < 1)
 		return ;
-	temp = b[0];
-	b[0] = b[1];
-	b[1] = temp;
+	swap(&b[0], &b[1]);
 	write(1, "sb\n", 3);
 }
 
-void ss(int *a, int topa, int *b, int topb)
+void	ss(int *a, int topa, int *b, int topb)
 {
-	sa(a, topa);
-	sb(b, topb);
+	if (topa > 0)
+		swap(&a[0], &a[1]);
+	if (topb > 0)
+		swap(&b[0], &b[1]);
+	write(1, "ss\n", 3);
 }
 
-void pa(int *a, int *topa, int *b, int *topb)
+void	pa(int *a, int *topa, int *b, int *topb)
 {
-	int i;
+	int	i;
 
 	if (*topb < 0)
 		return ;
@@ -66,9 +61,9 @@ void pa(int *a, int *topa, int *b, int *topb)
 	write(1, "pa\n", 3);
 }
 
-void pb(int *a, int *topa, int *b, int *topb)
+void	pb(int *a, int *topa, int *b, int *topb)
 {
-	int i;
+	int	i;
 
 	if (*topa < 0)
 		return ;

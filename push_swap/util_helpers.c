@@ -1,85 +1,90 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_utils1.c                                 :+:      :+:    :+:   */
+/*   util_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergei <sergei@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sounania <sounania@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/21 10:18:49 by sergei            #+#    #+#             */
-/*   Updated: 2025/08/27 20:32:58 by sergei           ###   ########.fr       */
+/*   Created: 2025/08/28 09:27:26 by sounania          #+#    #+#             */
+/*   Updated: 2025/08/28 09:35:50 by sounania         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void ra(int *a, int topa)
+#include "push_swap.h"
+
+void	swap(int *x, int *y)
 {
-	int i;
-	int temp;
+	int	tmp;
+
+	tmp = *x;
+	*x = *y;
+	*y = tmp;
+}
+
+void	ra_op(int *a, int topa)
+{
+	int	i;
+	int	tmp;
 
 	if (topa < 1)
 		return ;
-	temp = a[0];
+	tmp = a[0];
 	i = 0;
 	while (i < topa)
 	{
 		a[i] = a[i + 1];
 		i++;
 	}
-	a[topa] = temp;
+	a[topa] = tmp;
 }
 
-void rb(int *b, int topb)
+void	rb_op(int *b, int topb)
 {
-	int i;
-	int temp;
+	int	i;
+	int	tmp;
 
 	if (topb < 1)
 		return ;
-	temp = b[0];
+	tmp = b[0];
 	i = 0;
 	while (i < topb)
 	{
 		b[i] = b[i + 1];
 		i++;
 	}
-	b[topb] = temp;
+	b[topb] = tmp;
 }
 
-void rr(int *a, int topa, int *b, int topb)
+void	rra_op(int *a, int topa)
 {
-	ra(a, topa);
-	rb(b, topb);
-}
-
-void rra(int *a, int topa)
-{
-	int i;
-	int temp;
+	int	i;
+	int	tmp;
 
 	if (topa < 1)
 		return ;
-	temp = a[topa];
+	tmp = a[topa];
 	i = topa;
 	while (i > 0)
 	{
 		a[i] = a[i - 1];
 		i--;
 	}
-	a[0] = temp;
+	a[0] = tmp;
 }
 
-void rrb(int *b, int topb)
+void	rrb_op(int *b, int topb)
 {
-	int i;
-	int temp;
+	int	i;
+	int	tmp;
 
 	if (topb < 1)
 		return ;
-	temp = b[topb];
+	tmp = b[topb];
 	i = topb;
 	while (i > 0)
 	{
 		b[i] = b[i - 1];
 		i--;
 	}
-	b[0] = temp;
+	b[0] = tmp;
 }
