@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>add</title>
+</head>
+<body>
+<h2>Movies</h2>
+{% if movies %}
+  <ul>
+  {% for m in movies %}
+    <li>
+      <strong>{{ m.title }}</strong>
+      {% if m.director %} ({{ m.director }}){% endif %}
+      {% if m.release_year %} – {{ m.release_year }}{% endif %}
+      {% if m.genre %} – {{ m.genre }}{% endif %}
+      &nbsp; <a href="{% url 'delete_movie' m.pk %}">Delete</a>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No movies yet.</p>
+{% endif %}
+<p><a href="{% url 'add_movie' %}">Add Movie</a></p>
+
+</body>
+</html>
