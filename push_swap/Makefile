@@ -5,30 +5,32 @@
 #                                                     +:+ +:+         +:+      #
 #    By: sounania <sounania@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/21 10:23:12 by sergei            #+#    #+#              #
-#    Updated: 2025/08/28 10:25:56 by sounania         ###   ########.fr        #
+#    Created: 2025/11/02 17:37:30 by sounania          #+#    #+#              #
+#    Updated: 2025/11/02 17:37:58 by sounania         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
-
+NAME = push_swap 
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
-
-SRC = atoi_helpers.c util_helpers.c push_swap_utils.c push_swap_utils1.c push_swap_utils2.c push_swap.c 
-
+HEADER = push_swap.h
+SRC = error_handling.c ft_split.c main.c pa_pb.c push_swap.c ra_rb_rr.c rra_rrb_rrr.c sa_sb_ss.c sorting.c stack_utils.c utils.c
 OBJ = $(SRC:.c=.o)
 
-NAME = push_swap
+all : $(NAME)
 
-all: $(NAME)
+$(NAME) : $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $@
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-	
-clean:
+%.o : %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean :
 	rm -f $(OBJ)
 
-fclean: clean
+fclean : clean
 	rm -f $(NAME)
 
-re: fclean all
+re : fclean all
+
+.PHONY : clean

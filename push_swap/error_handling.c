@@ -1,53 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_utils2.c                                 :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sounania <sounania@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 19:40:38 by sergei            #+#    #+#             */
-/*   Updated: 2025/08/28 10:22:03 by sounania         ###   ########.fr       */
+/*   Created: 2025/11/02 17:36:21 by sounania          #+#    #+#             */
+/*   Updated: 2025/11/02 18:14:03 by sounania         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_sorted(int *a, int topa)
+int	duplicate_error(t_stack_node *a, int n)
 {
-	int	i;
-
-	i = 0;
-	while (i < topa)
+	if (!a)
+		return (0);
+	while (a)
 	{
-		if (a[i] > a[i + 1])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	check_duplicate(int *arr, int size)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < size)
-	{
-		j = i + 1;
-		while (j < size)
-		{
-			if (arr[i] == arr[j])
-				return (1);
-			j++;
-		}
-		i++;
+		if (a->value == n)
+			return (1);
+		a = a->next;
 	}
 	return (0);
 }
 
-void	error_exit(void)
+void	free_stack(t_stack_node **stack)
 {
+	t_stack_node	*curr;
+	t_stack_node	*tmp;
+
+	if (!stack)
+		return ;
+	curr = *stack;
+	while (curr)
+	{
+		tmp = curr->next;
+		free(curr);
+		curr = tmp;
+	}
+	*stack = NULL;
+}
+
+void	ft_free_errors(t_stack_node **stack)
+{
+	free_stack(stack);
 	write(2, "Error\n", 6);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
