@@ -25,8 +25,6 @@ SECRET_KEY = 'rj1pg_z^!e38@i0h^h1*8u@&ja*b3ezy)^y17l@h17-n2t29ka'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -119,3 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = [h.strip() for h in _hosts.split(",") if h.strip()]
+
