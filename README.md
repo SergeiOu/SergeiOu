@@ -35,6 +35,6 @@ I am proficient in Linux and Windows!
 * 📧 Email: [sergeiounanian@gmail.com](mailto:sergeiounanian@gmail.com)
 * 💼 LinkedIn: [www.linkedin.com/in/sergei-ounanian-835a44206](http://www.linkedin.com/in/sergei-ounanian-835a44206)
 
-💬 *Feel free to reach out or explore my repositories — let’s build something amazing together!* 
+💬 *Feel free to reach out or explore my repositories, let’s build something amazing together!* 
 
 ###
